@@ -1167,6 +1167,7 @@ export type BookCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Books.
    */
   data: Prisma.BookCreateManyInput | Prisma.BookCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1185,6 +1186,7 @@ export type BookCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Books.
    */
   data: Prisma.BookCreateManyInput | Prisma.BookCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
