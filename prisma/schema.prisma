@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  title     String
+  author    String
+  status    String
+  rating    Int      @default(0)
+  year      String?
+  cover     String?
+  note      String?
+  createdAt DateTime @default(now())
+}
