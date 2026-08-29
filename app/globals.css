@@ -430,6 +430,10 @@ img {
     border-color 0.3s ease,
     transform 0.3s ease;
 }
+.bookArrow svg {
+  width: 15px;
+  height: 15px;
+}
 
 .bookItem:hover .bookArrow {
   color: #f3f1e8;

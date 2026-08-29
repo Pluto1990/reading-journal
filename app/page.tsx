@@ -116,21 +116,15 @@ export default function Home() {
   // POST / PUT
   // =========================
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setSubmitting(true);
 
     try {
-      const url = editingBook
-        ? `/api/books/${editingBook.id}`
-        : "/api/books";
+      const url = editingBook ? `/api/books/${editingBook.id}` : "/api/books";
 
-      const method = editingBook
-        ? "PUT"
-        : "POST";
+      const method = editingBook ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
@@ -154,10 +148,7 @@ export default function Home() {
         const errorData = await response.json();
 
         throw new Error(
-          errorData.message ||
-            (editingBook
-              ? "更新書籍失敗"
-              : "新增書籍失敗")
+          errorData.message || (editingBook ? "更新書籍失敗" : "新增書籍失敗"),
         );
       }
 
@@ -169,11 +160,7 @@ export default function Home() {
     } catch (error) {
       console.error("儲存書籍失敗：", error);
 
-      alert(
-        error instanceof Error
-          ? error.message
-          : "操作失敗"
-      );
+      alert(error instanceof Error ? error.message : "操作失敗");
     } finally {
       setSubmitting(false);
     }
@@ -186,28 +173,21 @@ export default function Home() {
   const handleDelete = async () => {
     if (!editingBook) return;
 
-    const confirmed = window.confirm(
-      `確定要刪除《${editingBook.title}》嗎？`
-    );
+    const confirmed = window.confirm(`確定要刪除《${editingBook.title}》嗎？`);
 
     if (!confirmed) return;
 
     setSubmitting(true);
 
     try {
-      const response = await fetch(
-        `/api/books/${editingBook.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`/api/books/${editingBook.id}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
 
-        throw new Error(
-          errorData.message || "刪除書籍失敗"
-        );
+        throw new Error(errorData.message || "刪除書籍失敗");
       }
 
       await getBooks();
@@ -218,11 +198,7 @@ export default function Home() {
     } catch (error) {
       console.error("刪除書籍失敗：", error);
 
-      alert(
-        error instanceof Error
-          ? error.message
-          : "刪除書籍失敗"
-      );
+      alert(error instanceof Error ? error.message : "刪除書籍失敗");
     } finally {
       setSubmitting(false);
     }
@@ -234,21 +210,14 @@ export default function Home() {
 
       <header className="journalHeader">
         <div className="journalTitle">
-          <span className="jpTitle">
-            MY READING JOURNAL
-          </span>
+          <span className="jpTitle">MY READING JOURNAL</span>
 
           <h1>好呀已讀</h1>
 
-          <p>
-            記錄每一本讀過的書，以及留下來的想法。
-          </p>
+          <p>記錄每一本讀過的書，以及留下來的想法。</p>
         </div>
 
-        <button
-          className="addButton"
-          onClick={openAddModal}
-        >
+        <button className="addButton" onClick={openAddModal}>
           <span className="addIcon">＋</span>
           <span>新增書籍</span>
         </button>
@@ -259,9 +228,7 @@ export default function Home() {
       <div className="journalIntro">
         <span>2026</span>
 
-        <p>
-          共 {String(books.length).padStart(2, "0")} 本
-        </p>
+        <p>共 {String(books.length).padStart(2, "0")} 本</p>
       </div>
 
       {/* List */}
@@ -277,31 +244,21 @@ export default function Home() {
 
           <h2>還沒有閱讀紀錄</h2>
 
-          <p>
-            從第一本書開始建立你的閱讀手札。
-          </p>
+          <p>從第一本書開始建立你的閱讀手札。</p>
 
-          <button onClick={openAddModal}>
-            ＋ 新增第一本書
-          </button>
+          <button onClick={openAddModal}>＋ 新增第一本書</button>
         </div>
       ) : (
         <section className="bookList">
           {books.map((book, index) => (
-            <article
-              className="bookItem"
-              key={book.id}
-            >
+            <article className="bookItem" key={book.id}>
               <div className="bookNumber">
                 {String(index + 1).padStart(2, "0")}
               </div>
 
               <div className="bookCover">
                 {book.cover ? (
-                  <img
-                    src={book.cover}
-                    alt={`${book.title}封面`}
-                  />
+                  <img src={book.cover} alt={`${book.title}封面`} />
                 ) : (
                   <div className="noCover">
                     <span>BOOK</span>
@@ -310,29 +267,17 @@ export default function Home() {
               </div>
 
               <div className="bookMain">
-                <span className="bookStatus">
-                  {book.status}
-                </span>
+                <span className="bookStatus">{book.status}</span>
 
                 <h2>{book.title}</h2>
 
-                <p className="author">
-                  {book.author}
-                </p>
+                <p className="author">{book.author}</p>
 
-                {book.note && (
-                  <p className="bookNote">
-                    {book.note}
-                  </p>
-                )}
+                {book.note && <p className="bookNote">{book.note}</p>}
               </div>
 
               <div className="bookMeta">
-                {book.year && (
-                  <span className="bookYear">
-                    {book.year}
-                  </span>
-                )}
+                {book.year && <span className="bookYear">{book.year}</span>}
 
                 {book.rating > 0 && (
                   <span className="rating">
@@ -347,7 +292,16 @@ export default function Home() {
                 aria-label={`編輯${book.title}`}
                 onClick={() => openEditModal(book)}
               >
-                ↗
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M7 17L17 7M9 7h8v8"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </button>
             </article>
           ))}
@@ -357,29 +311,18 @@ export default function Home() {
       {/* Modal */}
 
       {showForm && (
-        <div
-          className="modalBackdrop"
-          onClick={closeModal}
-        >
+        <div className="modalBackdrop" onClick={closeModal}>
           <div
             className="bookModal"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
+            onClick={(event) => event.stopPropagation()}
           >
             <div className="modalHeader">
               <div>
                 <span className="modalEnglish">
-                  {editingBook
-                    ? "EDIT BOOK"
-                    : "NEW BOOK"}
+                  {editingBook ? "EDIT BOOK" : "NEW BOOK"}
                 </span>
 
-                <h2>
-                  {editingBook
-                    ? "編輯書籍"
-                    : "新增書籍"}
-                </h2>
+                <h2>{editingBook ? "編輯書籍" : "新增書籍"}</h2>
 
                 <p className="modalDescription">
                   {editingBook
@@ -398,10 +341,7 @@ export default function Home() {
               </button>
             </div>
 
-            <form
-              className="bookForm"
-              onSubmit={handleSubmit}
-            >
+            <form className="bookForm" onSubmit={handleSubmit}>
               <div className="formRow">
                 <label>
                   <span>
@@ -411,9 +351,7 @@ export default function Home() {
 
                   <input
                     value={title}
-                    onChange={(event) =>
-                      setTitle(event.target.value)
-                    }
+                    onChange={(event) => setTitle(event.target.value)}
                     placeholder="輸入書名"
                     required
                   />
@@ -427,9 +365,7 @@ export default function Home() {
 
                   <input
                     value={author}
-                    onChange={(event) =>
-                      setAuthor(event.target.value)
-                    }
+                    onChange={(event) => setAuthor(event.target.value)}
                     placeholder="輸入作者"
                     required
                   />
@@ -442,21 +378,13 @@ export default function Home() {
 
                   <select
                     value={status}
-                    onChange={(event) =>
-                      setStatus(event.target.value)
-                    }
+                    onChange={(event) => setStatus(event.target.value)}
                   >
-                    <option value="想閱讀">
-                      想閱讀
-                    </option>
+                    <option value="想閱讀">想閱讀</option>
 
-                    <option value="閱讀中">
-                      閱讀中
-                    </option>
+                    <option value="閱讀中">閱讀中</option>
 
-                    <option value="已讀完">
-                      已讀完
-                    </option>
+                    <option value="已讀完">已讀完</option>
                   </select>
                 </label>
 
@@ -465,35 +393,19 @@ export default function Home() {
 
                   <select
                     value={rating}
-                    onChange={(event) =>
-                      setRating(
-                        Number(event.target.value)
-                      )
-                    }
+                    onChange={(event) => setRating(Number(event.target.value))}
                   >
-                    <option value="0">
-                      尚未評分
-                    </option>
+                    <option value="0">尚未評分</option>
 
-                    <option value="1">
-                      ★
-                    </option>
+                    <option value="1">★</option>
 
-                    <option value="2">
-                      ★★
-                    </option>
+                    <option value="2">★★</option>
 
-                    <option value="3">
-                      ★★★
-                    </option>
+                    <option value="3">★★★</option>
 
-                    <option value="4">
-                      ★★★★
-                    </option>
+                    <option value="4">★★★★</option>
 
-                    <option value="5">
-                      ★★★★★
-                    </option>
+                    <option value="5">★★★★★</option>
                   </select>
                 </label>
               </div>
@@ -504,9 +416,7 @@ export default function Home() {
 
                   <input
                     value={year}
-                    onChange={(event) =>
-                      setYear(event.target.value)
-                    }
+                    onChange={(event) => setYear(event.target.value)}
                     placeholder="例如：2002"
                   />
                 </label>
@@ -516,9 +426,7 @@ export default function Home() {
 
                   <input
                     value={cover}
-                    onChange={(event) =>
-                      setCover(event.target.value)
-                    }
+                    onChange={(event) => setCover(event.target.value)}
                     placeholder="https://..."
                   />
                 </label>
@@ -529,24 +437,16 @@ export default function Home() {
 
                 <textarea
                   value={note}
-                  onChange={(event) =>
-                    setNote(event.target.value)
-                  }
+                  onChange={(event) => setNote(event.target.value)}
                   placeholder="寫下一些讀完後的想法..."
                   maxLength={500}
                   rows={5}
                 />
 
-                <small className="characterCount">
-                  {note.length} / 500
-                </small>
+                <small className="characterCount">{note.length} / 500</small>
               </label>
 
-              <div
-                className={`formActions ${
-                  editingBook ? "editing" : ""
-                }`}
-              >
+              <div className={`formActions ${editingBook ? "editing" : ""}`}>
                 {editingBook && (
                   <button
                     type="button"
